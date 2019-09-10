@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>百度地图API公交线路绘制 | wzbus</title>
+<meta name="description" content="Wenzhou">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://wzbus.github.io//favicon.ico?v=1568104163212">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://wzbus.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://wzbus.github.io/">
+        <img src="https://wzbus.github.io//images/avatar.png?v=1568104163212" class="site-logo">
+        <h1 class="site-title">wzbus</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://wzbus.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://wzbus.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://wzbus.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/wzbus" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/108081088" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Wenzhou
+    </div>
+    <div class="site-footer">
+      Web Developer | <a class="rss" href="https://wzbus.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">百度地图API公交线路绘制</h2>
+            <div class="post-date">2019-09-10</div>
+            
+              <div class="feature-container" style="background-image: url('https://wzbus.github.io//post-images/bmap.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>由于百度地图搜索结果仅能显示单条公交线路，不利于对公交线网的研究，于是我写了这个基于百度地图JavaScript API V3.0的公交线路绘制网站（http://www.84ditu.com）。本文主要介绍绘制公交的基础功能，其中部分代码涉及jQuery。<br>
+<img src="https://wzbus.github.io//post-images/1568102615932.jpg" alt="成品图"></p>
+<h3 id="申请api密钥">申请API密钥</h3>
+<p>首先要有一个百度账号，并且申请成为百度开发者，然后才能申请ak，应用类型选择浏览器端，必须勾选JavaScript API，最后将申请到的ak作为script链接的一部分在html中的head部分引入。</p>
+<p><img src="https://wzbus.github.io//post-images/1568102630268.png" alt="ak申请"></p>
+<h3 id="生成地图并自动定位">生成地图并自动定位</h3>
+<pre><code class="language-js">var map = new BMap.Map(&quot;map&quot;); //&quot;map&quot;为用于展示地图的div的id
+var city;
+var myCity = new BMap.LocalCity();
+myCity.get(getCity);
+function getCity (res) {
+  if (res) {
+    city = res.name;
+    map.centerAndZoom(city, 13);
+  } else {
+    city = &quot;温州市&quot;; //默认城市
+  }
+}
+</code></pre>
+<h3 id="判断路线是否已添加">判断路线是否已添加</h3>
+<pre><code class="language-js">function addLine (line) {
+  if ($.inArray(line, readyAdd) == -1) {
+    bus.getBusList(line);
+    readyAdd.push(line); //readyAdd为空数组，用于存储已添加的线路名
+  } else {
+    alert(&quot;该路线已添加&quot;);
+  }
+}
+</code></pre>
+<h3 id="检索并生成路线">检索并生成路线</h3>
+<pre><code class="language-js">var getPolylineOptions = function getPolylineOptions () { //线路样式配置
+  return {
+    strokeColor: $(&quot;#strokeColor&quot;).val(),
+    strokeWeight: $(&quot;#strokeWeight&quot;).val(),
+    strokeOpacity: $(&quot;#strokeOpacity&quot;).val(),
+    strokeStyle: $(&quot;#strokeStyle&quot;).val()
+  }
+};
+var bus = new BMap.BusLineSearch(map, {
+  onGetBusListComplete: function onGetBusListComplete (result) {
+    let busListItem = $(&quot;#busListItem&quot;).val(); //公交上下行
+    let fstLine = result.getBusListItem(busListItem);
+    bus.getBusLine(fstLine);
+  },
+  onGetBusLineComplete: function onGetBusLineComplete (busline) {
+    polyline = new BMap.Polyline(busline.getPath(), getPolylineOptions());
+    let lineName = busline.name.substr(0, busline.name.indexOf(&quot;(&quot;)); //提取线路名
+    map.addOverlay(polyline); //添加折线覆盖物
+    let stationList = []; //获取站点
+    for (let i = 0, len = busline.getNumBusStations(); i &lt; len; i++) {
+      let busStation = busline.getBusStation(i);
+      let marker = new BMap.Marker(busStation.position, {
+        icon: stationIcon
+      });
+      stationList.push(new BMap.Point(busStation.position.lng, busStation.position.lat));
+      if ($(&quot;#strokeStation&quot;).val() == &quot;true&quot;) { //显示站点
+        map.addOverlay(marker);
+        marker.setTitle(lineName + &quot;:&quot; + busStation.name);
+        marker.addEventListener(&quot;click&quot;, function (e) { //单击站点显示信息
+          let opts = {
+            width: 250,
+            height: 80,
+            title: e.target.getTitle().substr(e.target.getTitle().indexOf(&quot;:&quot;) + 1)
+          };
+          let content = busline.name;
+          let infoWindow = new BMap.InfoWindow(content, opts);
+          let point = new BMap.Point(e.target.getPosition().lng, e.target.getPosition().lat);
+          map.openInfoWindow(infoWindow, point);
+        });
+      }
+    }
+    if (enableAutoViewport) {
+      let view = map.getViewport(eval(stationList));
+      map.centerAndZoom(view.center, view.zoom);
+    }
+    polyline.addEventListener(&quot;dblclick&quot;, function (e) { //双击线路删除路径
+      let allOverlay = map.getOverlays();
+      for (let i = 0, len = allOverlay.length; i &lt; len; i++) {
+        if (allOverlay[i].toString() == &quot;[object Marker]&quot;) {
+          if (allOverlay[i].getTitle().substr(0, allOverlay[i].getTitle().indexOf(&quot;:&quot;)) == lineName) {
+            allOverlay[i].enableMassClear();
+          } else {
+            allOverlay[i].disableMassClear();
+          }
+        } else {
+          allOverlay[i].disableMassClear();
+        }
+      }
+      e.target.enableMassClear();
+      map.clearOverlays();
+      let index = readyAdd.indexOf(lineName);
+      readyAdd.splice(index, 1);
+    });
+    polyline.addEventListener(&quot;mouseover&quot;, function (e) { //移向线路高亮路径
+      if (e.target == currentPolyline) {
+        return false;
+      }
+      currentPolyline = e.target;
+      lineOpacity = currentPolyline.getStrokeOpacity();
+      currentPolyline.setStrokeOpacity(&quot;1&quot;);
+    });
+    polyline.addEventListener(&quot;mouseout&quot;, function (e) {
+      e.target.setStrokeOpacity(lineOpacity);
+    })
+  }
+});
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://wzbus.github.io//tag/TUx5NaxiA" class="tag">
+                    map
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://wzbus.github.io//post/gulp">
+                  <h3 class="post-title">
+                    使用Gulp4.0.2打包HTML项目
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '8d21363d2826d5ad21eb',
+        clientSecret: '78b1fb872ae27e7aa39cd4639382925c42756b35',
+        repo: 'https://wzbus.github.io/',
+        owner: 'wzbus',
+        admin: ['wzbus'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

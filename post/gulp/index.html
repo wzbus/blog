@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>使用Gulp4.0.2打包HTML项目 | wzbus</title>
+<meta name="description" content="Wenzhou">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://wzbus.github.io//favicon.ico?v=1568104163212">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://wzbus.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://wzbus.github.io/">
+        <img src="https://wzbus.github.io//images/avatar.png?v=1568104163212" class="site-logo">
+        <h1 class="site-title">wzbus</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://wzbus.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://wzbus.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://wzbus.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/wzbus" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/108081088" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Wenzhou
+    </div>
+    <div class="site-footer">
+      Web Developer | <a class="rss" href="https://wzbus.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">使用Gulp4.0.2打包HTML项目</h2>
+            <div class="post-date">2019-09-10</div>
+            
+              <div class="feature-container" style="background-image: url('https://wzbus.github.io//post-images/gulp.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h2 id="项目目录">项目目录</h2>
+<p><img src="https://wzbus.github.io//post-images/1568102074198.png" alt="项目目录"><br>
+新建一个app目录用于存放源代码，dist目录（会自动生成）用于存放打包后的文件，rev目录（会自动生成）用于存放其它文件名添加Hash值前后的映射信息。<br>
+##安装依赖</p>
+<pre><code>npm install --save-dev babel-core babel-plugin-transform-remove-strict-mode babel-preset-es2015 del gulp gulp-autoprefixer gulp-babel@7 gulp-cached gulp-clean-css gulp-connect gulp-imagemin gulp-rev gulp-rev-collector gulp-uglify
+</code></pre>
+<p>理论上第一步只要安装gulp包，就能将项目初始化，为了方便，我就一次性全列出来了，功能可见下面源码中的说明，大家根据需求取舍，建议使用淘宝镜像cnpm来安装。特别说明一下，gulp-babel得安装8.0以下的版本，不然使用ES6语法会报错找不到@babel/core。全部安装完成后效果如下。<br>
+<img src="https://wzbus.github.io//post-images/1568102124324.png" alt="package.json"></p>
+<h2 id="代码编写">代码编写</h2>
+<p>不废话，直接上源码</p>
+<pre><code>//.babelrc
+{
+  &quot;presets&quot;:[&quot;es2015&quot;], //编译为ES5语法
+  &quot;plugins&quot;: [&quot;transform-remove-strict-mode&quot;] //关闭严格模式，这里按需求而定
+}
+</code></pre>
+<pre><code>&lt;!--test.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/test.css&quot;&gt;
+  &lt;title&gt;test&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Test&lt;/h1&gt;
+  &lt;img src=&quot;pic/test.png&quot;&gt;
+  &lt;script src=&quot;js/test.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code>//test.js
+let msg = &quot;test&quot;;
+console.log(msg); //ES6语法会被编译为ES5语法，并清除注释
+</code></pre>
+<pre><code>//gulpfile.babel.js
+import gulp from 'gulp'; //引入依赖包，gulp必需
+import babel from 'gulp-babel'; //支持ES6语法需要babel相关几个包
+import cached from &quot;gulp-cached&quot;;
+import autoprefixer from 'gulp-autoprefixer';
+import cleanCss from 'gulp-clean-css';
+import uglify from 'gulp-uglify';
+import rev from 'gulp-rev';
+import revCollector from 'gulp-rev-collector';
+import imagemin from &quot;gulp-imagemin&quot;;
+import connect from &quot;gulp-connect&quot;;
+import del from 'del'; //Node原生的清除方法
+
+gulp.task('css', () =&gt; {
+  return gulp.src('app/css/**/*.css') //读取css目录下任意多级目录下所有以.css为结尾的文件，最新版gulp中建议使用return语法
+    .pipe(cached('css')) //缓存文件，避免每次重复打包
+    .pipe(autoprefixer({ //自动加兼容前缀
+      overrideBrowserslist: ['&gt; 5%'], //兼容使用率超过5%的浏览器
+      cascade: false //前缀美化
+    }))
+    .pipe(cleanCss({ //压缩CSS
+      advanced: false,
+      compatibility: 'ie8',
+      keepBreaks: false,
+      keepSpecialComments: '*'
+    }))
+    .pipe(rev())
+    .pipe(gulp.dest('dist/css')) //保存打包后的CSS文件到dist下的css目录
+    .pipe(rev.manifest()) //文件名加Hash值，配合上上行使用
+    .pipe(gulp.dest('rev/css')) //保存CSS映射信息
+});
+
+gulp.task('js', function () {
+  return gulp.src('app/js/**/*.js')
+    .pipe(cached('js'))
+    .pipe(babel()) 
+    .pipe(uglify({ //压缩JS
+      mangle: false //是否混淆变量
+    }))
+    .pipe(rev())
+    .pipe(gulp.dest('dist/js'))
+    .pipe(rev.manifest())
+    .pipe(gulp.dest('rev/js'))
+});
+
+gulp.task('pic', function () {
+  return gulp.src('app/pic/**/*')
+    .pipe(cached('pic'))
+    .pipe(imagemin()) //压缩图片，但效果不明显
+    .pipe(gulp.dest('dist/pic'));
+});
+
+gulp.task('html', function() {
+  return gulp.src(['rev/**/*.json', 'app/*.html'])
+    .pipe(cached('html'))
+    .pipe(revCollector({ //更改HTML源码中链接路径
+      replaceReved: true //替换为追加Hash值后的文件名
+      dirReplacements: {
+         'css': 'css', //将URL中的css替换为css，其实相同则不必写
+         'js': 'js'
+       }
+    }))
+    .pipe(gulp.dest('dist'))
+});
+
+gulp.task('clear', function () {
+  return del(['dist/*']); //每次打包清除dist目录
+});
+
+gulp.task(&quot;reload&quot;, function () {
+  return gulp.src('app/*.html')
+    .pipe(connect.reload()); //页面重新加载
+})
+
+gulp.task('watch', function() {
+  gulp.watch('app/*.html', gulp.series('html')); //监听html文件变化，执行‘html’任务
+  gulp.watch('app/css/**/*.css', gulp.series('css'));
+  gulp.watch('app/js/**/*.js', gulp.series('js'));
+  gulp.watch('app/pic/**/*', gulp.series('pic'));
+  gulp.watch('dist/**/*', gulp.series('reload'));
+});
+ 
+gulp.task('connect', function () { 
+  connect.server({ //启用本地服务器
+    root: 'dist', //根目录
+    port: 3000, //端口
+    livereload: true //热更新
+  });
+});
+
+gulp.task('default', gulp.series('clear', gulp.parallel('css', 'js', 'pic'), 'html')); //gulp指令默认执行的任务，series为串行执行，parallel为并行执行。这里先清空dist目录，再编译，后更改html文件
+
+gulp.task('server', gulp.series('default', gulp.parallel('connect', 'watch'))); //开启服务器并实时更新页面
+</code></pre>
+<h2 id="打包编译">打包编译</h2>
+<p>在命令行中输入gulp开始打包，不出意外，你的文件夹下将会多出以下文件。<br>
+<img src="https://wzbus.github.io//post-images/1568102145814.png" alt="打包成功"><br>
+再输入gulp server指令，可以在localhost:3000查看页面，当有源码改变后，会触发watch中的任务，不必手动刷新便能在页面上看到效果。最后附上这个项目的github地址 <a href="https://github.com/wzbus/gulp">https://github.com/wzbus/gulp</a></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://wzbus.github.io//tag/VxdzWWsJ0" class="tag">
+                    gulp
+                  </a>
+                
+              </div>
+            
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '8d21363d2826d5ad21eb',
+        clientSecret: '78b1fb872ae27e7aa39cd4639382925c42756b35',
+        repo: 'https://wzbus.github.io/',
+        owner: 'wzbus',
+        admin: ['wzbus'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
