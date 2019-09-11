@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://wzbus.github.io/</id>
+    <id>https://blog.wzbus.xyz/</id>
     <title>wzbus</title>
-    <updated>2019-09-10T08:29:43.290Z</updated>
+    <updated>2019-09-11T14:58:12.417Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://wzbus.github.io/"/>
-    <link rel="self" href="https://wzbus.github.io//atom.xml"/>
+    <link rel="alternate" href="https://blog.wzbus.xyz/"/>
+    <link rel="self" href="https://blog.wzbus.xyz//atom.xml"/>
     <subtitle>Wenzhou</subtitle>
-    <logo>https://wzbus.github.io//images/avatar.png</logo>
-    <icon>https://wzbus.github.io//favicon.ico</icon>
+    <logo>https://blog.wzbus.xyz//images/avatar.png</logo>
+    <icon>https://blog.wzbus.xyz//favicon.ico</icon>
     <rights>All rights reserved 2019, wzbus</rights>
     <entry>
         <title type="html"><![CDATA[百度地图API公交线路绘制]]></title>
-        <id>https://wzbus.github.io//post/bmap</id>
-        <link href="https://wzbus.github.io//post/bmap">
+        <id>https://blog.wzbus.xyz//post/bmap</id>
+        <link href="https://blog.wzbus.xyz//post/bmap">
         </link>
         <updated>2019-09-10T08:01:14.000Z</updated>
         <content type="html"><![CDATA[<p>由于百度地图搜索结果仅能显示单条公交线路，不利于对公交线网的研究，于是我写了这个基于百度地图JavaScript API V3.0的公交线路绘制网站（http://www.84ditu.com）。本文主要介绍绘制公交的基础功能，其中部分代码涉及jQuery。<br>
-<img src="https://wzbus.github.io//post-images/1568102615932.jpg" alt="成品图"></p>
+<img src="https://blog.wzbus.xyz//post-images/1568102615932.jpg" alt="成品图"></p>
 <h3 id="申请api密钥">申请API密钥</h3>
 <p>首先要有一个百度账号，并且申请成为百度开发者，然后才能申请ak，应用类型选择浏览器端，必须勾选JavaScript API，最后将申请到的ak作为script链接的一部分在html中的head部分引入。</p>
-<p><img src="https://wzbus.github.io//post-images/1568102630268.png" alt="ak申请"></p>
+<p><img src="https://blog.wzbus.xyz//post-images/1568102630268.png" alt="ak申请"></p>
 <h3 id="生成地图并自动定位">生成地图并自动定位</h3>
 <pre><code class="language-js">var map = new BMap.Map(&quot;map&quot;); //&quot;map&quot;为用于展示地图的div的id
 var city;
@@ -127,18 +127,18 @@ var bus = new BMap.BusLineSearch(map, {
     </entry>
     <entry>
         <title type="html"><![CDATA[使用Gulp4.0.2打包HTML项目]]></title>
-        <id>https://wzbus.github.io//post/gulp</id>
-        <link href="https://wzbus.github.io//post/gulp">
+        <id>https://blog.wzbus.xyz//post/gulp</id>
+        <link href="https://blog.wzbus.xyz//post/gulp">
         </link>
         <updated>2019-09-10T07:48:52.000Z</updated>
         <content type="html"><![CDATA[<h2 id="项目目录">项目目录</h2>
-<p><img src="https://wzbus.github.io//post-images/1568102074198.png" alt="项目目录"><br>
+<p><img src="https://blog.wzbus.xyz//post-images/1568102074198.png" alt="项目目录"><br>
 新建一个app目录用于存放源代码，dist目录（会自动生成）用于存放打包后的文件，rev目录（会自动生成）用于存放其它文件名添加Hash值前后的映射信息。<br>
 ##安装依赖</p>
 <pre><code>npm install --save-dev babel-core babel-plugin-transform-remove-strict-mode babel-preset-es2015 del gulp gulp-autoprefixer gulp-babel@7 gulp-cached gulp-clean-css gulp-connect gulp-imagemin gulp-rev gulp-rev-collector gulp-uglify
 </code></pre>
 <p>理论上第一步只要安装gulp包，就能将项目初始化，为了方便，我就一次性全列出来了，功能可见下面源码中的说明，大家根据需求取舍，建议使用淘宝镜像cnpm来安装。特别说明一下，gulp-babel得安装8.0以下的版本，不然使用ES6语法会报错找不到@babel/core。全部安装完成后效果如下。<br>
-<img src="https://wzbus.github.io//post-images/1568102124324.png" alt="package.json"></p>
+<img src="https://blog.wzbus.xyz//post-images/1568102124324.png" alt="package.json"></p>
 <h2 id="代码编写">代码编写</h2>
 <p>不废话，直接上源码</p>
 <pre><code>//.babelrc
@@ -263,7 +263,7 @@ gulp.task('server', gulp.series('default', gulp.parallel('connect', 'watch'))); 
 </code></pre>
 <h2 id="打包编译">打包编译</h2>
 <p>在命令行中输入gulp开始打包，不出意外，你的文件夹下将会多出以下文件。<br>
-<img src="https://wzbus.github.io//post-images/1568102145814.png" alt="打包成功"><br>
+<img src="https://blog.wzbus.xyz//post-images/1568102145814.png" alt="打包成功"><br>
 再输入gulp server指令，可以在localhost:3000查看页面，当有源码改变后，会触发watch中的任务，不必手动刷新便能在页面上看到效果。最后附上这个项目的github地址 <a href="https://github.com/wzbus/gulp">https://github.com/wzbus/gulp</a></p>
 ]]></content>
     </entry>
