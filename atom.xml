@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://blog.wzbus.xyz/</id>
     <title>wzbus</title>
-    <updated>2019-09-11T14:58:12.417Z</updated>
+    <updated>2019-09-12T11:57:04.971Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://blog.wzbus.xyz/"/>
     <link rel="self" href="https://blog.wzbus.xyz//atom.xml"/>
@@ -10,6 +10,223 @@
     <logo>https://blog.wzbus.xyz//images/avatar.png</logo>
     <icon>https://blog.wzbus.xyz//favicon.ico</icon>
     <rights>All rights reserved 2019, wzbus</rights>
+    <entry>
+        <title type="html"><![CDATA[vscode个人配置]]></title>
+        <id>https://blog.wzbus.xyz//post/vscode</id>
+        <link href="https://blog.wzbus.xyz//post/vscode">
+        </link>
+        <updated>2019-09-12T07:25:35.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="插件">插件</h1>
+<pre><code>Auto Rename Tag
+Autoprefixer
+Chinese (Simplified) Language Pack for Visual Studio Code
+ESLint
+HTML Snippets
+open in browser
+Reactjs code snippets
+Vetur
+</code></pre>
+<h1 id="设置">设置</h1>
+<pre><code>{
+    &quot;workbench.colorTheme&quot;: &quot;Visual Studio Dark&quot;,
+    &quot;workbench.editor.enablePreview&quot;: false,
+    &quot;editor.fontSize&quot;: 16,
+    &quot;editor.tabSize&quot;: 2,
+    &quot;editor.detectIndentation&quot;: false,
+    &quot;editor.snippetSuggestions&quot;: &quot;top&quot;,
+    &quot;editor.minimap.enabled&quot;: true,
+    &quot;editor.renderControlCharacters&quot;: false,
+    &quot;python.pythonPath&quot;: &quot;D:\\Python\\python.exe&quot;,
+    &quot;git.path&quot;: &quot;E:\\Git\\bin\\git.exe&quot;,
+    &quot;git.enableSmartCommit&quot;: true,
+    &quot;terminal.integrated.shell.windows&quot;: &quot;E:\\\\Git\\\\bin\\\\bash.exe&quot;,
+    &quot;terminal.integrated.rendererType&quot;: &quot;dom&quot;,
+    &quot;eslint.enable&quot;: true,
+    &quot;eslint.autoFixOnSave&quot;: true,
+    &quot;eslint.validate&quot;: [
+      &quot;html&quot;,
+      &quot;javascript&quot;,
+      &quot;javascriptreact&quot;,
+      &quot;vue-html&quot;,
+      {
+          &quot;language&quot;: &quot;vue&quot;,
+          &quot;autoFix&quot;: true
+      }
+    ],
+    &quot;stylusSupremacy.insertColons&quot;: true, // 是否插入冒号
+    &quot;stylusSupremacy.insertSemicolons&quot;: false, // 是否插入分号
+    &quot;stylusSupremacy.insertBraces&quot;: false, // 是否插入大括号
+    &quot;stylusSupremacy.insertNewLineAroundImports&quot;: true, // import之后是否换行
+    &quot;stylusSupremacy.insertNewLineAroundBlocks&quot;: true,
+    &quot;vetur.format.defaultFormatter.js&quot;: &quot;vscode-typescript&quot;,
+    &quot;html.format.extraLiners&quot;: &quot;null&quot;, // 标签之间是否换行
+    &quot;javascript.format.insertSpaceBeforeFunctionParenthesis&quot;: true, // 函数括号前是否加空格
+    &quot;workbench.startupEditor&quot;: &quot;newUntitledFile&quot;, // 两个选择器中是否换行
+    &quot;autoprefixer.browsers&quot;: [
+      &quot;ie &gt;= 9&quot;,
+      &quot;firefox &gt;= 16&quot;,
+      &quot;chrome &gt;= 26&quot;,
+      &quot;safari &gt;= 7&quot;,
+      &quot;Opera &gt;= 15&quot;
+  ],
+  &quot;breadcrumbs.enabled&quot;: false,
+  &quot;window.zoomLevel&quot;: 0
+}
+</code></pre>
+<h1 id="代码片段">代码片段</h1>
+<pre><code>{
+  &quot;ajax&quot;: {
+    &quot;prefix&quot;: &quot;ajax&quot;,
+    &quot;body&quot;: [
+      &quot;$.ajax({&quot;,
+      &quot;  url: '$1',&quot;,
+      &quot;  method: '${2:POST}',&quot;,
+      &quot;  datatype: 'json',&quot;,
+      &quot;  success: data =&gt; {&quot;,
+      &quot;    $3;&quot;,
+      &quot;  },&quot;,
+      &quot;  error: err =&gt; {&quot;,
+      &quot;    $4;&quot;,
+      &quot;  }&quot;,
+      &quot;});&quot;
+    ],
+    &quot;description&quot;: &quot;Ajax [JQ]&quot;
+  },
+  &quot;commment&quot;: {
+    &quot;prefix&quot;: &quot;note&quot;,
+    &quot;body&quot;: [
+      &quot;/**&quot;,
+      &quot;*  @param {$1} $2&quot;,
+      &quot;*  @param {$3} $4&quot;,
+      &quot;*  @return {$5} $6&quot;,
+      &quot;*/&quot;
+    ],
+    &quot;description&quot;: &quot;Commment&quot;
+  },
+  &quot;export&quot;: {
+    &quot;prefix&quot;: &quot;export&quot;,
+    &quot;body&quot;: [
+      &quot;export default ($1) =&gt; {&quot;,
+      &quot;  $2&quot;,
+      &quot;  return ''&quot;,
+      &quot;}&quot;
+    ],
+    &quot;description&quot;: &quot;Export default function [ES6]&quot;
+  },
+  &quot;for&quot;: {
+    &quot;prefix&quot;: &quot;for&quot;,
+    &quot;body&quot;: [
+      &quot;for (let i = 0; i &lt; ${1:arr}.length; i++) {&quot;,
+      &quot;  $2&quot;,
+      &quot;}&quot;
+    ],
+    &quot;description&quot;: &quot;For&quot;
+  },
+  &quot;function&quot;: {
+    &quot;prefix&quot;: &quot;function&quot;,
+    &quot;body&quot;: [
+      &quot;function $1() {&quot;,
+      &quot;  $2&quot;,
+      &quot;}&quot;
+    ],
+    &quot;description&quot;: &quot;Function&quot;
+  },
+  &quot;jquery&quot;: {
+    &quot;prefix&quot;: &quot;jq&quot;,
+    &quot;body&quot;: [
+      &quot;$('#$1').${2:click}(function() {&quot;,
+      &quot;  $3&quot;,
+      &quot;});&quot;
+    ],
+    &quot;description&quot;: &quot;Selector [JQ]&quot;
+  },
+  &quot;log&quot;: {
+    &quot;prefix&quot;: &quot;log&quot;,
+    &quot;body&quot;: [
+      &quot;console.log($1);&quot;
+    ],
+    &quot;description&quot;: &quot;Log&quot;
+  },
+  &quot;promise&quot;: {
+    &quot;prefix&quot;: &quot;promise&quot;,
+    &quot;body&quot;: [
+      &quot;new Promise((resolve, reject) =&gt; {&quot;,
+      &quot;  resolve();&quot;,
+      &quot;});&quot;
+    ],
+    &quot;description&quot;: &quot;Promise [ES6]&quot;
+  }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CentOS 7 安装 PHP 7.2]]></title>
+        <id>https://blog.wzbus.xyz//post/centos7-php7</id>
+        <link href="https://blog.wzbus.xyz//post/centos7-php7">
+        </link>
+        <updated>2019-09-12T07:14:38.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="安装-php72">安装 PHP7.2</h1>
+<p>安装 EPEL 软件包：</p>
+<pre><code>$ sudo yum install epel-release
+</code></pre>
+<p>安装 remi 源：</p>
+<pre><code>$ sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+</code></pre>
+<p>安装 yum 扩展包：</p>
+<pre><code>$ sudo yum install yum-utils
+</code></pre>
+<p>启用 remi 仓库：</p>
+<pre><code>$ sudo yum-config-manager --enable remi-php72
+$ sudo yum update
+</code></pre>
+<p>安装 PHP7.2：</p>
+<pre><code>$ sudo yum install php72
+</code></pre>
+<p>安装 php-fpm 和一些其他模块：</p>
+<pre><code>$ sudo yum install php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache
+</code></pre>
+<p>输入 php72 -v 查看版本信息</p>
+<h1 id="php-fpm-服务">php-fpm 服务</h1>
+<p>设置开机自启：</p>
+<pre><code>$ sudo systemctl enable php72-php-fpm.service
+</code></pre>
+<p>常用 php-fpm 命令：</p>
+<pre><code># 开启服务
+$ sudo systemctl start php72-php-fpm.service
+# 停止服务
+$ sudo systemctl stop php72-php-fpm.service
+# 查看状态
+$ sudo systemctl status php72-php-fpm.service
+</code></pre>
+<p>通过 egrep 查询 nginx 服务器的用户和用户组：</p>
+<pre><code>$ egrep '^(user|group)' /etc/nginx/nginx.conf
+</code></pre>
+<p>结果示例：</p>
+<pre><code>user nginx;
+</code></pre>
+<p>编辑 /etc/opt/remi/php72/php-fpm.d/www.conf,修改执行 php-fpm 的权限：</p>
+<pre><code>$ sudo vi /etc/opt/remi/php72/php-fpm.d/www.conf
+</code></pre>
+<p>设置用户和用户组为 nginx：</p>
+<pre><code>$ user = nginx
+$ group = nginx
+</code></pre>
+<p>保存并关闭文件，重启 php-fpm 服务：</p>
+<pre><code>$ sudo systemctl restart php72-php-fpm.service
+</code></pre>
+<h1 id="路径整理">路径整理</h1>
+<pre><code># php 安装路径
+/etc/opt/remi/php72
+
+# nginx 配置文件
+/etc/nginx/nginx.conf
+
+# nginx 默认项目路径
+/usr/share/nginx/html
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[百度地图API公交线路绘制]]></title>
         <id>https://blog.wzbus.xyz//post/bmap</id>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>CentOS 7 安装 PHP 7.2 | wzbus</title>
+<meta name="description" content="Wenzhou">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://blog.wzbus.xyz//favicon.ico?v=1568289401416">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://blog.wzbus.xyz//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://blog.wzbus.xyz/">
+        <img src="https://blog.wzbus.xyz//images/avatar.png?v=1568289401416" class="site-logo">
+        <h1 class="site-title">wzbus</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://wzbus.github.io/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://wzbus.github.io//archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://wzbus.github.io//tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/wzbus" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/108081088" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Wenzhou
+    </div>
+    <div class="site-footer">
+      Web Developer | <a class="rss" href="https://blog.wzbus.xyz//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">CentOS 7 安装 PHP 7.2</h2>
+            <div class="post-date">2019-09-12</div>
+            
+              <div class="feature-container" style="background-image: url('https://blog.wzbus.xyz//post-images/centos7-php7.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="安装-php72">安装 PHP7.2</h1>
+<p>安装 EPEL 软件包：</p>
+<pre><code>$ sudo yum install epel-release
+</code></pre>
+<p>安装 remi 源：</p>
+<pre><code>$ sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+</code></pre>
+<p>安装 yum 扩展包：</p>
+<pre><code>$ sudo yum install yum-utils
+</code></pre>
+<p>启用 remi 仓库：</p>
+<pre><code>$ sudo yum-config-manager --enable remi-php72
+$ sudo yum update
+</code></pre>
+<p>安装 PHP7.2：</p>
+<pre><code>$ sudo yum install php72
+</code></pre>
+<p>安装 php-fpm 和一些其他模块：</p>
+<pre><code>$ sudo yum install php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache
+</code></pre>
+<p>输入 php72 -v 查看版本信息</p>
+<h1 id="php-fpm-服务">php-fpm 服务</h1>
+<p>设置开机自启：</p>
+<pre><code>$ sudo systemctl enable php72-php-fpm.service
+</code></pre>
+<p>常用 php-fpm 命令：</p>
+<pre><code># 开启服务
+$ sudo systemctl start php72-php-fpm.service
+# 停止服务
+$ sudo systemctl stop php72-php-fpm.service
+# 查看状态
+$ sudo systemctl status php72-php-fpm.service
+</code></pre>
+<p>通过 egrep 查询 nginx 服务器的用户和用户组：</p>
+<pre><code>$ egrep '^(user|group)' /etc/nginx/nginx.conf
+</code></pre>
+<p>结果示例：</p>
+<pre><code>user nginx;
+</code></pre>
+<p>编辑 /etc/opt/remi/php72/php-fpm.d/www.conf,修改执行 php-fpm 的权限：</p>
+<pre><code>$ sudo vi /etc/opt/remi/php72/php-fpm.d/www.conf
+</code></pre>
+<p>设置用户和用户组为 nginx：</p>
+<pre><code>$ user = nginx
+$ group = nginx
+</code></pre>
+<p>保存并关闭文件，重启 php-fpm 服务：</p>
+<pre><code>$ sudo systemctl restart php72-php-fpm.service
+</code></pre>
+<h1 id="路径整理">路径整理</h1>
+<pre><code># php 安装路径
+/etc/opt/remi/php72
+
+# nginx 配置文件
+/etc/nginx/nginx.conf
+
+# nginx 默认项目路径
+/usr/share/nginx/html
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://blog.wzbus.xyz//tag/pD0XFl_kS" class="tag">
+                    centos
+                  </a>
+                
+                  <a href="https://blog.wzbus.xyz//tag/5W3Az9Rbyw" class="tag">
+                    php
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.wzbus.xyz//post/bmap">
+                  <h3 class="post-title">
+                    百度地图API公交线路绘制
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '8d21363d2826d5ad21eb',
+        clientSecret: '78b1fb872ae27e7aa39cd4639382925c42756b35',
+        repo: 'https://wzbus.github.io/',
+        owner: 'wzbus',
+        admin: ['wzbus'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
