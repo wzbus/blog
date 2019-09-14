@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://blog.wzbus.xyz/</id>
     <title>wzbus</title>
-    <updated>2019-09-12T11:57:04.971Z</updated>
+    <updated>2019-09-14T04:06:57.336Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://blog.wzbus.xyz/"/>
     <link rel="self" href="https://blog.wzbus.xyz//atom.xml"/>
@@ -10,6 +10,285 @@
     <logo>https://blog.wzbus.xyz//images/avatar.png</logo>
     <icon>https://blog.wzbus.xyz//favicon.ico</icon>
     <rights>All rights reserved 2019, wzbus</rights>
+    <entry>
+        <title type="html"><![CDATA[vue封装全局toast弹窗组件]]></title>
+        <id>https://blog.wzbus.xyz//post/vue-toast</id>
+        <link href="https://blog.wzbus.xyz//post/vue-toast">
+        </link>
+        <updated>2019-09-14T02:35:35.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="效果图">效果图</h1>
+<p><img src="https://blog.wzbus.xyz//post-images/1568428586800.jpg" alt=""></p>
+<h1 id="组件模板">组件模板</h1>
+<p>Dialog.vue</p>
+<pre><code>&lt;template&gt;
+  &lt;div class=&quot;toast&quot; v-if=&quot;showWrap&quot; :class=&quot;showContent?'fadeIn':'fadeOut'&quot;&gt;
+    &lt;span class=&quot;text&quot;&gt;{{text}}&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.toast {
+  position: fixed;
+  top: 80%;
+  width: 100%;
+  line-height: 24px;
+  text-align: center;
+}
+.text {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+}
+.fadeIn {
+  animation: animateIn 0.5s;
+}
+.fadeOut {
+  animation: animateOut 0.5s forwards;
+}
+@keyframes animateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes animateOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+&lt;/style&gt;
+</code></pre>
+<h1 id="导出组件">导出组件</h1>
+<p>Dialog.js</p>
+<pre><code>import vue from 'vue'
+import toastComponent from './Toast.vue'
+
+const ToastConstructor = vue.extend(toastComponent)
+
+function showToast (text, duration = 2000) {
+  const toastDom = new ToastConstructor({
+    el: document.createElement('div'),
+    data () {
+      return {
+        text: text,
+        showWrap: true,
+        showContent: true
+      }
+    }
+  })
+  document.body.appendChild(toastDom.$el)
+  setTimeout(() =&gt; { toastDom.showContent = false }, duration - 500)
+  setTimeout(() =&gt; { toastDom.show = false }, duration)
+}
+
+function toast () {
+  vue.prototype.$toast = showToast
+}
+
+export default toast
+</code></pre>
+<h1 id="注册组件">注册组件</h1>
+<p>main.js</p>
+<pre><code>import toast from './components/toast/Toast.js'
+
+Vue.use(toast)
+</code></pre>
+<h1 id="调用组件">调用组件</h1>
+<p>test.vue</p>
+<pre><code>this.toast('请先登录')
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[vue封装全局dialog弹窗组件]]></title>
+        <id>https://blog.wzbus.xyz//post/vue-dialog</id>
+        <link href="https://blog.wzbus.xyz//post/vue-dialog">
+        </link>
+        <updated>2019-09-13T14:16:22.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="效果图">效果图</h1>
+<p><img src="https://blog.wzbus.xyz//post-images/1568387987569.jpg" alt=""></p>
+<h1 id="组件模板">组件模板</h1>
+<p>Dialog.vue</p>
+<pre><code>&lt;template&gt;
+  &lt;div class=&quot;mask&quot; v-if=&quot;showMask&quot;&gt;
+    &lt;div class=&quot;dialog&quot; :class=&quot;showDialog?'fadeIn':'fadeOut'&quot;&gt;
+      &lt;div class=&quot;wrap&quot;&gt;
+      &lt;div class=&quot;title_wrap&quot;&gt;
+        &lt;span class=&quot;title&quot;&gt;{{text.title}}&lt;/span&gt;
+        &lt;span class=&quot;iconfont close&quot; @click=&quot;close&quot;&gt;&amp;#xe6e9;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;content&quot;&gt;{{text.content}}&lt;/div&gt;
+      &lt;div class=&quot;btn_wrap&quot;&gt;
+        &lt;div class=&quot;btn cancel_btn&quot; v-if=&quot;text.type==='confirm'&quot; @click=&quot;cancel&quot;&gt;{{text.cancelText}}&lt;/div&gt;
+        &lt;div class=&quot;btn&quot; @click=&quot;confirm&quot;&gt;{{text.confirmText}}&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 8%;
+  width: 84%;
+  max-height: 80%;
+  overflow-y: scroll;
+  color: #333;
+  background-color: #fff;
+  transform: translateY(-50%);
+  z-index: 9999;
+}
+.dialog::-webkit-scrollbar {
+  display: none;
+}
+.wrap {
+  padding: 15px 5% 0;
+}
+.title_wrap {
+  text-align: center;
+}
+.title {
+  font-size: 18px;
+  font-weight: 500;
+}
+.close {
+  color: #999;
+  font-size: 18px;
+  float: right;
+}
+.content {
+  padding: 30px 0 25px;
+  font-size: 16px;
+}
+.btn_wrap {
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+  text-align: center;
+  display: flex;
+}
+.btn {
+  flex: 1;
+  line-height: 30px;
+  font-weight: 500;
+  color: #FFB309;
+}
+.cancel_btn {
+  border-right: 1px solid #eee;
+}
+.fadeIn {
+  animation: animateIn 0.5s;
+}
+.fadeOut {
+  animation: animateOut 0.5s forwards;
+}
+@keyframes animateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+@keyframes animateOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+&lt;/style&gt;
+</code></pre>
+<h1 id="导出组件">导出组件</h1>
+<p>Dialog.js</p>
+<pre><code>import vue from 'vue'
+import dialogComponent from './Dialog.vue'
+
+const DialogConstructor = vue.extend(dialogComponent)
+
+function showDialog (text) {
+  return new Promise((resolve, reject) =&gt; {
+    const dialogDom = new DialogConstructor({
+      el: document.createElement('div'),
+      data () {
+        return {
+          showMask: true,
+          showDialog: true,
+          text: {
+            title: text.title || '消息提示',
+            content: text.content || '确认此操作',
+            cancelText: text.cancelText || '取消',
+            confirmText: text.confirmText || '确认',
+            type: text.type || 'confirm'
+          }
+        }
+      },
+      methods: {
+        close () {
+          this.showMask = false
+        },
+        cancel () {
+          reject(new Error())
+          this.showMask = false
+        },
+        confirm () {
+          resolve(new Error())
+          this.showMask = false
+        }
+      }
+    })
+    document.body.appendChild(dialogDom.$el)
+  })
+}
+
+function dialog () {
+  vue.prototype.$dialog = showDialog
+}
+
+export default dialog
+</code></pre>
+<h1 id="注册组件">注册组件</h1>
+<p>main.js</p>
+<pre><code>import dialog from './components/dialog/Dialog.js'
+
+Vue.use(dialog)
+</code></pre>
+<h1 id="调用组件">调用组件</h1>
+<p>test.vue</p>
+<pre><code>this.$dialog({
+			content: '自定义内容'
+		}).then(() =&gt; {
+			console.log('自定义确认事件')
+		}).catch(() =&gt; {
+			console.log('自定义取消事件')
+		})
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[vscode个人配置]]></title>
         <id>https://blog.wzbus.xyz//post/vscode</id>
@@ -161,9 +440,9 @@ Vetur
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[CentOS 7 安装 PHP 7.2]]></title>
-        <id>https://blog.wzbus.xyz//post/centos7-php7</id>
-        <link href="https://blog.wzbus.xyz//post/centos7-php7">
+        <title type="html"><![CDATA[CentOS7安装PHP7.2]]></title>
+        <id>https://blog.wzbus.xyz//post/centos-php</id>
+        <link href="https://blog.wzbus.xyz//post/centos-php">
         </link>
         <updated>2019-09-12T07:14:38.000Z</updated>
         <content type="html"><![CDATA[<h1 id="安装-php72">安装 PHP7.2</h1>
@@ -225,6 +504,78 @@ $ group = nginx
 # nginx 默认项目路径
 /usr/share/nginx/html
 </code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CentOS7配置nginx环境]]></title>
+        <id>https://blog.wzbus.xyz//post/centos-nginx</id>
+        <link href="https://blog.wzbus.xyz//post/centos-nginx">
+        </link>
+        <updated>2019-09-12T02:48:20.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="创建服务器实例">创建服务器实例</h1>
+<p><img src="https://blog.wzbus.xyz//post-images/1568429369329.png" alt=""><br>
+我购买的是阿里云CentOS7 64位的服务器，过程不再过多累述，之后在控制台修改root用户密码。<br>
+<img src="https://blog.wzbus.xyz//post-images/1568429482179.png" alt=""></p>
+<h1 id="远程连接服务器">远程连接服务器</h1>
+<p>Windows 用户可以使用 Xshell或者Putty ，Mac 用户可以使用系统自带的终端工具。然后用 ssh 命令，连接到你的服务器。<br>
+<code>ssh root@218.244.147.196</code><br>
+@ 左边的 root 是连接时使用的用户的名字，@ 右边的数字是你的服务器的 IP 地址。这行命令的意思就是，使用 root 用户，登录到 218.244.147.196 这台服务器上。回车以后，会提示你输入 root 用户的密码（这个密码阿里云会发送到你手机上）。</p>
+<h1 id="添加新用户并分配-root-权限">添加新用户并分配 Root 权限</h1>
+<p>为了安全，我们可以单独创建一个平时操作服务器的用户，并且给这个用户分配可以使用 Root 的权限，也就是如果需要 Root 权限，可以在命令的前面加上 sudo 获取到 Root 用户的权限。</p>
+<h2 id="添加新用户">添加新用户</h2>
+<p><code>adduser wzbus</code></p>
+<h2 id="设置密码">设置密码</h2>
+<p><code>passwd wzbus</code></p>
+<h2 id="分配-root-权限">分配 Root 权限</h2>
+<p><code>gpasswd -a wzbus wheel</code></p>
+<h2 id="用新用户登录服务器">用新用户登录服务器</h2>
+<p><code>ssh wanghao@218.244.147.196</code></p>
+<h1 id="安装-nginx">安装 NGINX</h1>
+<p>先安装epel仓库<br>
+<code>sudo yum install epel-release -y</code><br>
+再用包管理工具直接安装nginx<br>
+<code>sudo yum install nginx -y</code></p>
+<h1 id="启动">启动</h1>
+<p><code>sudo systemctl start nginx</code></p>
+<h1 id="开机自启">开机自启</h1>
+<p><code>sudo systemctl enable nginx</code><br>
+此后在浏览器上输入公网IP地址，你将看到Welcome to nginx!等文字。</p>
+<h1 id="配置-nginx-虚拟主机">配置 nginx 虚拟主机</h1>
+<p>虚拟主机允许我们在同一台服务器上运行多个网站，我们可以为不同的域名配置不同的规则。下面先通过命令行进入到 nginx 配置文件目录：（当然你也可以在windows上安装WinSCP连接服务器，以图形化界面操作）<br>
+<code>cd /etc/nginx/conf.d</code><br>
+创建一个新的配置文件，比如我要为wzbus.xyz这个主机名创建一个虚拟主机：<br>
+<code>vim wzbus.conf</code><br>
+写入以下配置：</p>
+<pre><code>server {
+        listen       80;
+        server_name wzbus.xyz www.wzbus.xyz;
+        root         /home/www;
+
+        location / {  
+          add_header Access-Control-Allow-Origin *;
+          add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+          add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+
+          if ($request_method = 'OPTIONS') {
+              return 204;
+          }
+        }
+
+        error_page 404 /404.html;
+            location = /404.html {
+              root /home;
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+
+        }
+    }
+</code></pre>
+<p>上述代码为80端口下wzbus.xyz域名的基础配置，网站静态文件保存在/home/www目录下、允许所有跨域请求（亦可以设置域名白名单）、自定义404页面在/home目录下。</p>
+<h1 id="重启-nginx">重启 nginx</h1>
+<p><code>sudo systemctl reload nginx</code></p>
 ]]></content>
     </entry>
     <entry>
