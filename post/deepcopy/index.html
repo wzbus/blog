@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>CentOS7安装PHP7.2 | wzbus</title>
+<title>深拷贝与浅拷贝 | wzbus</title>
 <meta name="description" content="Wenzhou">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -100,83 +100,51 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">CentOS7安装PHP7.2</h2>
-            <div class="post-date">2019-09-12</div>
+            <h2 class="post-title">深拷贝与浅拷贝</h2>
+            <div class="post-date">2019-09-17</div>
             
-              <div class="feature-container" style="background-image: url('https://blog.wzbus.xyz//post-images/centos-php.jpg')">
+              <div class="feature-container" style="background-image: url('https://blog.wzbus.xyz//post-images/deepcopy.jpeg')">
               </div>
             
             <div class="post-content">
-              <h1 id="安装-php72">安装 PHP7.2</h1>
-<p>安装 EPEL 软件包：</p>
-<pre><code>$ sudo yum install epel-release
-</code></pre>
-<p>安装 remi 源：</p>
-<pre><code>$ sudo yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-</code></pre>
-<p>安装 yum 扩展包：</p>
-<pre><code>$ sudo yum install yum-utils
-</code></pre>
-<p>启用 remi 仓库：</p>
-<pre><code>$ sudo yum-config-manager --enable remi-php72
-$ sudo yum update
-</code></pre>
-<p>安装 PHP7.2：</p>
-<pre><code>$ sudo yum install php72
-</code></pre>
-<p>安装 php-fpm 和一些其他模块：</p>
-<pre><code>$ sudo yum install php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache
-</code></pre>
-<p>输入 php72 -v 查看版本信息</p>
-<h1 id="php-fpm-服务">php-fpm 服务</h1>
-<p>设置开机自启：</p>
-<pre><code>$ sudo systemctl enable php72-php-fpm.service
-</code></pre>
-<p>常用 php-fpm 命令：</p>
-<pre><code># 开启服务
-$ sudo systemctl start php72-php-fpm.service
-# 停止服务
-$ sudo systemctl stop php72-php-fpm.service
-# 查看状态
-$ sudo systemctl status php72-php-fpm.service
-</code></pre>
-<p>通过 egrep 查询 nginx 服务器的用户和用户组：</p>
-<pre><code>$ egrep '^(user|group)' /etc/nginx/nginx.conf
-</code></pre>
-<p>结果示例：</p>
-<pre><code>user nginx;
-</code></pre>
-<p>编辑 /etc/opt/remi/php72/php-fpm.d/www.conf,修改执行 php-fpm 的权限：</p>
-<pre><code>$ sudo vi /etc/opt/remi/php72/php-fpm.d/www.conf
-</code></pre>
-<p>设置用户和用户组为 nginx：</p>
-<pre><code>$ user = nginx
-$ group = nginx
-</code></pre>
-<p>保存并关闭文件，重启 php-fpm 服务：</p>
-<pre><code>$ sudo systemctl restart php72-php-fpm.service
-</code></pre>
-<h1 id="路径整理">路径整理</h1>
-<pre><code># php 安装路径
-/etc/opt/remi/php72
-
-# nginx 配置文件
-/etc/nginx/nginx.conf
-
-# nginx 默认项目路径
-/usr/share/nginx/html
+              <p>1.浅拷贝： 将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用；</p>
+<p>2.深拷贝： 创建一个新的对象和数组，将原对象的各项属性的“值”/ 数组的所有元素拷贝过来，是“值”而不是“引用”。</p>
+<h1 id="jsonparsejsonstringifyobj">JSON.parse(JSON.stringify(obj))</h1>
+<p>无法保留undefined、function、symbol等属性。</p>
+<h1 id="objectassgin-或者-arrayslice">Object.assgin() 或者 Array.slice()</h1>
+<p>只能深拷贝基本数据类型，无法实现真正意义上的深拷贝。</p>
+<h1 id="递归">递归</h1>
+<pre><code>var obj = {
+      str: 'str',
+      syb: Symbol('syb'),
+      fn: function () {
+        console.log('fn');
+      },
+      un: undefined,
+      nu: null
+    }
+    function deepCopy(obj) {
+      var result = Array.isArray(obj) ? [] : {};
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (typeof obj[key] === 'object' &amp;&amp; obj[key] !== null) {
+            result[key] = deepCopy(obj[key]);
+          } else {
+            result[key] = obj[key];
+          }
+        }
+      }
+      return result;
+    }
+    console.log(deepCopy(obj));
 </code></pre>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://blog.wzbus.xyz//tag/pD0XFl_kS" class="tag">
-                    centos
-                  </a>
-                
-                  <a href="https://blog.wzbus.xyz//tag/5W3Az9Rbyw" class="tag">
-                    php
+                  <a href="https://blog.wzbus.xyz//tag/_s2h2YWJP" class="tag">
+                    js
                   </a>
                 
               </div>
@@ -184,9 +152,9 @@ $ group = nginx
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://blog.wzbus.xyz//post/centos-nginx">
+                <a href="https://blog.wzbus.xyz//post/vue-toast">
                   <h3 class="post-title">
-                    CentOS7配置nginx环境
+                    vue封装全局toast弹窗组件
                   </h3>
                 </a>
               </div>

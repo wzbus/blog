@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://blog.wzbus.xyz/</id>
     <title>wzbus</title>
-    <updated>2019-09-14T04:06:57.336Z</updated>
+    <updated>2019-09-20T14:05:12.360Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://blog.wzbus.xyz/"/>
     <link rel="self" href="https://blog.wzbus.xyz//atom.xml"/>
@@ -10,6 +10,45 @@
     <logo>https://blog.wzbus.xyz//images/avatar.png</logo>
     <icon>https://blog.wzbus.xyz//favicon.ico</icon>
     <rights>All rights reserved 2019, wzbus</rights>
+    <entry>
+        <title type="html"><![CDATA[深拷贝与浅拷贝]]></title>
+        <id>https://blog.wzbus.xyz//post/deepcopy</id>
+        <link href="https://blog.wzbus.xyz//post/deepcopy">
+        </link>
+        <updated>2019-09-17T14:56:28.000Z</updated>
+        <content type="html"><![CDATA[<p>1.浅拷贝： 将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用；</p>
+<p>2.深拷贝： 创建一个新的对象和数组，将原对象的各项属性的“值”/ 数组的所有元素拷贝过来，是“值”而不是“引用”。</p>
+<h1 id="jsonparsejsonstringifyobj">JSON.parse(JSON.stringify(obj))</h1>
+<p>无法保留undefined、function、symbol等属性。</p>
+<h1 id="objectassgin-或者-arrayslice">Object.assgin() 或者 Array.slice()</h1>
+<p>只能深拷贝基本数据类型，无法实现真正意义上的深拷贝。</p>
+<h1 id="递归">递归</h1>
+<pre><code>var obj = {
+      str: 'str',
+      syb: Symbol('syb'),
+      fn: function () {
+        console.log('fn');
+      },
+      un: undefined,
+      nu: null
+    }
+    function deepCopy(obj) {
+      var result = Array.isArray(obj) ? [] : {};
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (typeof obj[key] === 'object' &amp;&amp; obj[key] !== null) {
+            result[key] = deepCopy(obj[key]);
+          } else {
+            result[key] = obj[key];
+          }
+        }
+      }
+      return result;
+    }
+    console.log(deepCopy(obj));
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[vue封装全局toast弹窗组件]]></title>
         <id>https://blog.wzbus.xyz//post/vue-toast</id>
