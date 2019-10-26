@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>标签列表 | wzbus</title>
+<title>Git常见操作 | wzbus</title>
 <meta name="description" content="Wenzhou">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://blog.wzbus.xyz//styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -93,28 +99,72 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="tag-list-title">标签列表</h2>
-          <div class="tags-container">
+          <div class="post-detail">
+            <h2 class="post-title">Git常见操作</h2>
+            <div class="post-date">2019-10-26</div>
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/N1qYMFiAB">git</a>
+              <div class="feature-container" style="background-image: url('https://blog.wzbus.xyz//post-images/git.jpg')">
+              </div>
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/_s2h2YWJP">js</a>
+            <div class="post-content">
+              <h3 id="创建分支">创建分支</h3>
+<pre><code>git checkout -b dev
+git push origin dev
+git branch --set-upstream-to=origin/dev 设置默认
+</code></pre>
+<h3 id="拉取分支代码">拉取分支代码</h3>
+<pre><code>git clone -b d dev 【链接】
+</code></pre>
+<h3 id="当前分支落后于主分支">当前分支落后于主分支</h3>
+<p>根据主分支（<code>origin</code>）代码在本地创建新的临时分支，命名为<code>temp</code></p>
+<pre><code>git checkout -b temp origin
+</code></pre>
+<p>将临时分支（<code>temp</code>）合并到开发分支（<code>dev</code>）</p>
+<pre><code>git checkout dev
+git merge temp
+</code></pre>
+<p>解决合并后的冲突<br>
+提交开发分支（<code>dev</code>）并push到远程仓库<br>
+后将开发分支（<code>dev</code>）合并到主分支（<code>origin</code>）<br>
+删除本地分支（<code>temp</code>）</p>
+<pre><code>git branch -d temp
+</code></pre>
+<h3 id="撤销合并">撤销合并</h3>
+<pre><code>git log
+git reset --hard 【版本号】
+</code></pre>
+
+            </div>
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/R1LeOe3uz">vue</a>
+              <div class="tag-container">
+                
+                  <a href="https://blog.wzbus.xyz//tag/N1qYMFiAB" class="tag">
+                    git
+                  </a>
+                
+              </div>
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/k-gXNG1yM">vscode</a>
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/pD0XFl_kS">centos</a>
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://blog.wzbus.xyz//post/deepcopy">
+                  <h3 class="post-title">
+                    深拷贝与浅拷贝
+                  </h3>
+                </a>
+              </div>
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/5W3Az9Rbyw">php</a>
+
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/aEFCJJypZ">nginx</a>
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
             
-              <a class="tag" href="https://blog.wzbus.xyz//tag/TUx5NaxiA">map</a>
-            
-              <a class="tag" href="https://blog.wzbus.xyz//tag/VxdzWWsJ0">gulp</a>
-            
+
           </div>
+
         </div>
       </div>
     </div>
@@ -135,6 +185,29 @@ var app = new Vue({
 })
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '8d21363d2826d5ad21eb',
+        clientSecret: '78b1fb872ae27e7aa39cd4639382925c42756b35',
+        repo: 'https://wzbus.github.io/',
+        owner: 'wzbus',
+        admin: ['wzbus'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://blog.wzbus.xyz/</id>
     <title>wzbus</title>
-    <updated>2019-09-20T14:05:12.360Z</updated>
+    <updated>2019-10-26T12:08:45.037Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://blog.wzbus.xyz/"/>
     <link rel="self" href="https://blog.wzbus.xyz//atom.xml"/>
@@ -10,6 +10,40 @@
     <logo>https://blog.wzbus.xyz//images/avatar.png</logo>
     <icon>https://blog.wzbus.xyz//favicon.ico</icon>
     <rights>All rights reserved 2019, wzbus</rights>
+    <entry>
+        <title type="html"><![CDATA[Git常见操作]]></title>
+        <id>https://blog.wzbus.xyz//post/git</id>
+        <link href="https://blog.wzbus.xyz//post/git">
+        </link>
+        <updated>2019-10-26T12:05:39.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="创建分支">创建分支</h3>
+<pre><code>git checkout -b dev
+git push origin dev
+git branch --set-upstream-to=origin/dev 设置默认
+</code></pre>
+<h3 id="拉取分支代码">拉取分支代码</h3>
+<pre><code>git clone -b d dev 【链接】
+</code></pre>
+<h3 id="当前分支落后于主分支">当前分支落后于主分支</h3>
+<p>根据主分支（<code>origin</code>）代码在本地创建新的临时分支，命名为<code>temp</code></p>
+<pre><code>git checkout -b temp origin
+</code></pre>
+<p>将临时分支（<code>temp</code>）合并到开发分支（<code>dev</code>）</p>
+<pre><code>git checkout dev
+git merge temp
+</code></pre>
+<p>解决合并后的冲突<br>
+提交开发分支（<code>dev</code>）并push到远程仓库<br>
+后将开发分支（<code>dev</code>）合并到主分支（<code>origin</code>）<br>
+删除本地分支（<code>temp</code>）</p>
+<pre><code>git branch -d temp
+</code></pre>
+<h3 id="撤销合并">撤销合并</h3>
+<pre><code>git log
+git reset --hard 【版本号】
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深拷贝与浅拷贝]]></title>
         <id>https://blog.wzbus.xyz//post/deepcopy</id>
